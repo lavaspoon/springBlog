@@ -5,12 +5,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/html/Members/")
 public class MembersController {
-
     private static final Logger logger = LoggerFactory.getLogger(MembersController.class);
     //로그인 페이지
     @GetMapping("/addMember")
@@ -22,7 +22,7 @@ public class MembersController {
 
     //Data 전달
     @RequestMapping(value = {"/addMember"}, method = {RequestMethod.POST})
-    public String addMember(@ModelAttribute Member member, Model model){
+    public String addMember(@Validated @ModelAttribute Member member, Model model){
         logger.info("=========> 회원가입 전송된 데이터 <========");
         logger.info("getUserID = {}", member.getUserID());
         logger.info("getUserPWD = {}", member.getUserPWD());
