@@ -5,8 +5,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/html/Members/")
@@ -31,7 +35,26 @@ public class MembersController {
         logger.info("getUserPhone = {}", member.getUserPhone());
         logger.info("=====================================");
 
-        model.addAttribute("member", member);
+        //valid 검증
+        Map<String, String> errors = new HashMap<>();
+
+        if(!StringUtils.hasText(member.getUserID())){
+            errors.put("ID_Error", "ID는 필수 값 입니다.");
+        }
+        if(!StringUtils.hasText(member.getUserPWD())){
+            errors.put("PWD_Error", "패스워드는 필수 값 입니다.");
+        }
+        if(!StringUtils.hasText(member.getUserPWD_Check())){
+            errors.put("PWD_Check_Error", "패스워드는 필수 값 입니다.");
+        }
+
+        if(!errors.isEmpty()){
+            logger.info("errors = {}", errors);
+            model.addAttribute("errors", errors);
+            return "html/Members/addMember";
+        }
+
+        //model.addAttribute("member", member);
         return "html/Members/addMember";
     }
 }

@@ -5,15 +5,10 @@ import javax.validation.constraints.NotNull;
 
 public class Member {
 
-    @NotBlank
     private String userID;
-    @NotBlank
     private String userPWD;
-    @NotBlank
     private String userPWD_Check;
-
     private String userName;
-
     private String userPhone;
 
     public Member() {
