@@ -2,6 +2,7 @@ package com.lava.springBlog.springBlog.controller;
 
 import com.lava.springBlog.springBlog.mapper.MemberMapper;
 import com.lava.springBlog.springBlog.model.MemberVO;
+import com.lava.springBlog.springBlog.service.MemberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class MembersController {
 
     @Autowired
     private MemberMapper memberMapper;
+    private MemberService memberService;
 
     private static final Logger logger = LoggerFactory.getLogger(MembersController.class);
     //로그인 페이지
@@ -61,5 +63,13 @@ public class MembersController {
         msg.put("message", "회원가입 성공");
         memberMapper.insertMember(memberVO);
         return msg;
+    }
+
+    @ResponseBody
+    @PostMapping("/ckeckID")
+    public int checkID(@RequestParam("userID") String userID){
+        //int count = memberMapper.checkID(userID);
+        int count = memberService.checkID(userID);
+        return count;
     }
 }

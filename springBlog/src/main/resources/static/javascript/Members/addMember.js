@@ -35,3 +35,27 @@ $('#Members-addMember-submit').on('click', function (){
         });
     }
 });
+
+function checkID(){
+    var userID = $('#userID').val();
+    $('#ID_ava').text("");
+    $('#ID_dis').text("");
+    $.ajax({
+        url:'/html/Members/ckeckID',
+        type:'post',
+        data:
+            {
+                userID: userID
+            },
+        success:function(count){
+            if(count != 1){
+                $('#ID_ava').text("사용가능");
+            } else {
+                $('#ID_dis').text("사용불가능");
+            }
+        },
+        error:function(){
+            alert("에러입니다");
+        }
+    });
+};
