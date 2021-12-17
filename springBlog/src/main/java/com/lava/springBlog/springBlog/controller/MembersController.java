@@ -25,6 +25,8 @@ public class MembersController {
 
     @Autowired
     private MemberMapper memberMapper;
+
+    @Autowired
     private MemberService memberService;
 
     private static final Logger logger = LoggerFactory.getLogger(MembersController.class);
