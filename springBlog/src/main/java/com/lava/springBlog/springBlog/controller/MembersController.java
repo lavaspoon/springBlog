@@ -1,8 +1,10 @@
 package com.lava.springBlog.springBlog.controller;
 
-import com.lava.springBlog.springBlog.model.Member;
+import com.lava.springBlog.springBlog.mapper.MemberMapper;
+import com.lava.springBlog.springBlog.model.MemberVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -19,6 +21,10 @@ import java.util.Map;
 @Controller
 @RequestMapping("/html/Members/")
 public class MembersController {
+
+    @Autowired
+    private MemberMapper memberMapper;
+
     private static final Logger logger = LoggerFactory.getLogger(MembersController.class);
     //로그인 페이지
     @GetMapping("/addMember")
@@ -27,23 +33,22 @@ public class MembersController {
         //model.addAttribute("member", new Member());
         return "html/Members/addMember";
     }
-
-    //Data 전달 - v1
+    //회원가입 전송
     @ResponseBody
     @RequestMapping(value = {"/addMember"}, method = {RequestMethod.POST})
-    public HashMap<String, String> addMember(@ModelAttribute Member member, Model model){
+    public HashMap<String, String> addMember(@ModelAttribute MemberVO memberVO, Model model){
 
         HashMap<String, String> msg = new HashMap<>();
         Map<String, String> errors = new HashMap<>();
 
         //valid 검증
-        if(!StringUtils.hasText(member.getUserID())){
+        if(!StringUtils.hasText(memberVO.getUserID())){
             errors.put("ID_Error", "ID는 필수 값 입니다.");
         }
-        if(!StringUtils.hasText(member.getUserPWD())){
+        if(!StringUtils.hasText(memberVO.getUserPWD())){
             errors.put("PWD_Error", "패스워드는 필수 값 입니다.");
         }
-        if(!StringUtils.hasText(member.getUserPWD_Check())){
+        if(!StringUtils.hasText(memberVO.getUserPWD_Check())){
             errors.put("PWD_Check_Error", "패스워드는 필수 값 입니다.");
         }
 
@@ -54,6 +59,7 @@ public class MembersController {
         }
 
         msg.put("message", "회원가입 성공");
+        memberMapper.insertMember(memberVO);
         return msg;
     }
 }

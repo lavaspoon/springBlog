@@ -17,6 +17,7 @@ $('#Members-addMember-submit').on('click', function (){
         $.ajax({
             url: "/html/Members/addMember",
             type: "POST",
+            contentType: 'application/json',
             data:
                 {
                     userID : userID,

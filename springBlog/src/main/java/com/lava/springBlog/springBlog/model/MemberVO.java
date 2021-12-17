@@ -1,9 +1,6 @@
 package com.lava.springBlog.springBlog.model;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
-public class Member {
+public class MemberVO {
 
     private String userID;
     private String userPWD;
@@ -11,11 +8,11 @@ public class Member {
     private String userName;
     private String userPhone;
 
-    public Member() {
+    public MemberVO() {
 
     }
 
-    public Member(String userID, String userPWD, String userPWD_Check, String userName, String userPhone) {
+    public MemberVO(String userID, String userPWD, String userPWD_Check, String userName, String userPhone) {
         this.userID = userID;
         this.userPWD = userPWD;
         this.userPWD_Check = userPWD_Check;
