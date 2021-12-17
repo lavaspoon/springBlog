@@ -24,27 +24,29 @@
     </div>
     <h4 class="mb-3">회원 정보 입력</h4>
 
-    <form id="Members-addMember" th:object="${member}">
+    <form id="Members-addMember">
         <div>
             <label for="userID">아이디</label>
-            <input type="text" th:field="*{userID}" id="userID" name="userID" class="form-control" th:value="${member.getUserID()}" placeholder="아이디를 입력하세요">
-            <div class="field-error" id="id_check"></div>
+            <input type="text" id="userID" name="userID" class="form-control" placeholder="아이디를 입력하세요">
+            <div class="field-error" id="ID_check"></div>
         </div>
         <div>
             <label for="userPWD">비밀번호</label>
-            <input type="text" id="userPWD" name="userPWD" class="form-control" th:value="${member.getUserPWD()}" placeholder="비밀번호를 입력하세요">
+            <input type="password" id="userPWD" name="userPWD" class="form-control" placeholder="비밀번호를 입력하세요">
+            <div class="field-error" id="PWD_check"></div>
         </div>
         <div>
             <label for="userPWD_Check">비밀번호 확인</label>
-            <input type="text" id="userPWD_Check" name="userPWD_Check" class="form-control" th:value="${member.getUserPWD_Check()}" placeholder="비밀번호를 입력하세요">
+            <input type="password" id="userPWD_Check" name="userPWD_Check" class="form-control" placeholder="비밀번호를 입력하세요">
+            <div class="field-error" id="PWD_Check_check"></div>
         </div>
         <div>
             <label for="userName">이름</label>
-            <input type="text" id="userName" name="userName" class="form-control" th:value="${member.getUserName()}" placeholder="이름을 입력하세요">
+            <input type="text" id="userName" name="userName" class="form-control" placeholder="이름을 입력하세요">
         </div>
         <div>
             <label for="userPhone">핸드폰 번호</label>
-            <input type="text" id="userPhone" name="userPhone" class="form-control" th:value="${member.getUserPhone()}" placeholder="핸드폰번호를 입력하세요">
+            <input type="text" id="userPhone" name="userPhone" class="form-control" placeholder="핸드폰번호를 입력하세요">
         </div>
         <hr class="my-4">
         <div class="row">
