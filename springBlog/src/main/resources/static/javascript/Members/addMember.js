@@ -1,15 +1,18 @@
-$(document).ready(function (){
-    $('#Members-addMember-submit').on('click', function (){
+$('#Members-addMember-submit').on('click', function (){
+    var userID = $('#userID').val();
+    if(userID == ""){
+        $("#id_check").text("아이디를 입력해주세요");
+    } else {
         $.ajax({
             url: "/html/Members/addMember",
             type: "POST",
             data: $("#Members-addMember").serialize(),
             success: function (data){
-                alert("회원가입 완료");
+                alert(data);
             },
             error: function (){
-                alert("회원가입 실패");
+                alert("server error");
             }
-        })
-    });
+        });
+    }
 });

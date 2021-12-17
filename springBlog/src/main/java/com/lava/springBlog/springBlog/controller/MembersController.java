@@ -19,12 +19,14 @@ public class MembersController {
     //로그인 페이지
     @GetMapping("/addMember")
     public String showPage(Model model){
+        System.out.println("MembersController.showPage");
         //타임리프로 값을 불러오기 때문에 빈값을 넘겨줘야함
         model.addAttribute("member", new Member());
         return "html/Members/addMember";
     }
 
-    //Data 전달
+    //Data 전달 - v1
+    @ResponseBody
     @RequestMapping(value = {"/addMember"}, method = {RequestMethod.POST})
     public String addMember(@Validated @ModelAttribute Member member, Model model){
         logger.info("=========> 회원가입 전송된 데이터 <========");
@@ -34,7 +36,7 @@ public class MembersController {
         logger.info("getUserName = {}", member.getUserName());
         logger.info("getUserPhone = {}", member.getUserPhone());
         logger.info("=====================================");
-
+        model.addAttribute("member", member);
         //valid 검증
         Map<String, String> errors = new HashMap<>();
 
@@ -49,12 +51,12 @@ public class MembersController {
         }
 
         if(!errors.isEmpty()){
+            System.out.println("Fail");
             logger.info("errors = {}", errors);
             model.addAttribute("errors", errors);
             return "html/Members/addMember";
         }
-
-        //model.addAttribute("member", member);
-        return "html/Members/addMember";
+        System.out.println("Success");
+        return "redirect:/html/Members/addMember";
     }
 }
