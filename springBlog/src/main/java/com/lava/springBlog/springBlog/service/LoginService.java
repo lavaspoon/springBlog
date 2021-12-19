@@ -17,6 +17,7 @@ public class LoginService {
     private MemberMapper memberMapper;
 
     /**
+     * 회원 로그인
      * @return 이 null 이면 실패
      */
     public MemberVO memberLogin(String userID, String userPWD) {
@@ -37,5 +38,12 @@ public class LoginService {
         return memberMapper.memberLogin(userID)
                 .filter(m -> m.getUserPWD().equals(userPWD))
                 .orElse(null);
+    }
+
+    /**
+     * 세션 로그인
+     */
+    public MemberVO findById(Long id) {
+        return memberMapper.findById(id);
     }
 }
