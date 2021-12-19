@@ -24,9 +24,6 @@ import java.util.Map;
 public class MembersController {
 
     @Autowired
-    private MemberMapper memberMapper;
-
-    @Autowired
     private MemberService memberService;
 
     private static final Logger logger = LoggerFactory.getLogger(MembersController.class);
@@ -70,7 +67,8 @@ public class MembersController {
         }
 
         msg.put("message", "회원가입 성공");
-        memberMapper.insertMember(memberVO);
+        //memberMapper.insertMember(memberVO);
+        memberService.memberJoin(memberVO);
         return msg;
     }
 
