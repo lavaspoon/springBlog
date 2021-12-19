@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 
 @Controller
@@ -20,16 +23,20 @@ public class LoginController {
         return "html/Login/login";
     }
 
-    //로그인 - ResponseBody 안하면 값이 cont -> js로 안넘어감
+    //로그인 - @ResponseBody 안하면 값이 cont -> js로 안넘어감, 쿠키 전달을 위해 @HttpServletResponse 추가
     @ResponseBody
     @RequestMapping(value = "/login", method = {RequestMethod.POST})
-    public HashMap<String, String> memberLogin(@ModelAttribute MemberVO memberVO){
+    public HashMap<String, String> memberLogin(@ModelAttribute MemberVO memberVO, HttpServletResponse response){
         HashMap<String, String> msg = new HashMap<>();
         MemberVO memberData = loginService.memberLogin(memberVO.getUserID(), memberVO.getUserPWD());
 
         if(memberData == null) {
             msg.put("message", "아이디 또는 비밀번호가 맞지않습니다.");
         } else {
+            //쿠키생성
+            Cookie idCookie = new Cookie("memberID", String.valueOf(memberData.getId()));
+            idCookie.setPath("/");
+            response.addCookie(idCookie);
             msg.put("message", "로그인 성공");
         }
 
