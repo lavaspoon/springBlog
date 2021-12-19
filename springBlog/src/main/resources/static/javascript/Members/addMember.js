@@ -47,7 +47,7 @@ function checkID(){
                 userID: userID
             },
         success:function(count){
-            if(count != 1){
+            if(count == 0){
                 $('#ID_ava').text("사용가능");
             } else {
                 $('#ID_dis').text("사용불가능");

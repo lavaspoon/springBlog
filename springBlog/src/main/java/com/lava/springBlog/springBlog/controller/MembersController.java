@@ -61,6 +61,13 @@ public class MembersController {
             msg.put("message", "회원가입 실패");
             return msg;
         }
+        //ID 중복검사(스프링쪽 검사)
+        int count = memberService.checkID(memberVO.getUserID());
+        logger.info("회원가입 전송버튼 중복검사 count = {}", count);
+        if(count != 0) {
+            msg.put("message", "아이디가 중복입니다.");
+            return msg;
+        }
 
         msg.put("message", "회원가입 성공");
         memberMapper.insertMember(memberVO);
@@ -72,6 +79,7 @@ public class MembersController {
     public int checkID(@RequestParam("userID") String userID){
         //int count = memberMapper.checkID(userID);
         int count = memberService.checkID(userID);
+        logger.info("실시간 중복검사 count = {}", count);
         return count;
     }
 }
