@@ -2,6 +2,8 @@ package com.lava.springBlog.springBlog.model;
 
 public class MemberVO {
 
+    private Long id;
+
     private String userID;
     private String userPWD;
     private String userPWD_Check;
@@ -12,12 +14,21 @@ public class MemberVO {
 
     }
 
-    public MemberVO(String userID, String userPWD, String userPWD_Check, String userName, String userPhone) {
+    public MemberVO(Long id, String userID, String userPWD, String userPWD_Check, String userName, String userPhone) {
+        this.id = id;
         this.userID = userID;
         this.userPWD = userPWD;
         this.userPWD_Check = userPWD_Check;
         this.userName = userName;
         this.userPhone = userPhone;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getUserID() {

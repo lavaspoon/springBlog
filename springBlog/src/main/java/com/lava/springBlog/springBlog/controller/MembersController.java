@@ -34,7 +34,7 @@ public class MembersController {
         //model.addAttribute("member", new Member());
         return "html/Members/addMember";
     }
-    //회원가입 전송
+    //회원가입 전송 (Model 지워도 됨)
     @ResponseBody
     @RequestMapping(value = {"/addMember"}, method = {RequestMethod.POST})
     public HashMap<String, String> addMember(@ModelAttribute MemberVO memberVO, Model model){
