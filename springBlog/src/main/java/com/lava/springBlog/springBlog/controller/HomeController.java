@@ -41,9 +41,13 @@ public class HomeController {
     //로그아웃
     @PostMapping("/logout")
     public String homeLogout(HttpServletResponse response){
-        Cookie cookie = new Cookie("memberID", null);
+        expireCookie(response, "memberID");
+        return "redirect:/";
+    }
+
+    private void expireCookie(HttpServletResponse response, String cookieName) {
+        Cookie cookie = new Cookie(cookieName, null);
         cookie.setMaxAge(0);
         response.addCookie(cookie);
-        return "redirect:/";
     }
 }
