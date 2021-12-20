@@ -9,7 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class HomeController {
@@ -19,12 +23,27 @@ public class HomeController {
     @Autowired
     private LoginService loginService;
 
+    /**
+     * @param userID
+     * @param model
+     * @return 세션 있으면 loginHome, 세션 없으면 home
+     */
     @GetMapping("/")
     public String homeLogin(@CookieValue(name="memberID", required = false) Long userID, Model model){
         if(userID != null){
             MemberVO memberData = loginService.findById(userID);
+            model.addAttribute("member", memberData);
             return "/html/Home/loginHome";
         }
         return "/html/Home/home";
+    }
+
+    //로그아웃
+    @PostMapping("/logout")
+    public String homeLogout(HttpServletResponse response){
+        Cookie cookie = new Cookie("memberID", null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return "redirect:/";
     }
 }
