@@ -25,12 +25,13 @@ public class SessionManager {
      * 세션 생성- 클라이언트에 response 응답
      */
     public void createSession(Object value, HttpServletResponse response){
-        //세션 id 생성 후, 값을 세션에 저장
+        //세션 생성
         String sessionID = UUID.randomUUID().toString();
         sessionStore.put(sessionID, value);
 
-        //쿠키생성 Cookie(세션이름, 세션값)
+        //쿠키 생성 Cookie(세션이름, UUID)
         Cookie mySessionCookie = new Cookie(SESSION_COOKIE_NAME, sessionID);
+        //서버 입장에서 웹브라우저에 응답이 나간것
         response.addCookie(mySessionCookie);
     }
 
