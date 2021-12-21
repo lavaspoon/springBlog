@@ -2,6 +2,8 @@ package com.lava.springBlog.springBlog.controller;
 
 import com.lava.springBlog.springBlog.model.MemberVO;
 import com.lava.springBlog.springBlog.service.LoginService;
+import com.lava.springBlog.springBlog.session.SessionManager;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -17,16 +19,20 @@ public class LoginController {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private SessionManager sessionManager;
+
     //로그인 페이지
     @GetMapping("/login")
     public String showPage(){
         return "html/Login/login";
     }
 
-    //로그인 - @ResponseBody 안하면 값이 cont -> js로 안넘어감, 쿠키 전달을 위해 @HttpServletResponse 추가
-    @ResponseBody
-    @RequestMapping(value = "/login", method = {RequestMethod.POST})
-    public HashMap<String, String> memberLogin(@ModelAttribute MemberVO memberVO, HttpServletResponse response){
+    //로그인 - @ResponseBody 안하면 값이 controller -> js로 안넘어감, 쿠키 전달을 위해 @HttpServletResponse 추가
+    //@ResponseBody
+    //@RequestMapping(value = "/login", method = {RequestMethod.POST})
+    public HashMap<String, String> memberLoginV1(@ModelAttribute MemberVO memberVO, HttpServletResponse response){
         HashMap<String, String> msg = new HashMap<>();
         MemberVO memberData = loginService.memberLogin(memberVO.getUserID(), memberVO.getUserPWD());
 
@@ -37,6 +43,25 @@ public class LoginController {
             Cookie idCookie = new Cookie("memberID", String.valueOf(memberData.getId()));
             idCookie.setPath("/");
             response.addCookie(idCookie);
+            msg.put("message", "로그인 성공");
+        }
+
+        return msg;
+    }
+
+    //로그인 - 커스텀 쿠키 적용
+    @ResponseBody
+    @RequestMapping(value = "/login", method = {RequestMethod.POST})
+    public HashMap<String, String> memberLoginV2(@ModelAttribute MemberVO memberVO, HttpServletResponse response){
+        HashMap<String, String> msg = new HashMap<>();
+        MemberVO memberData = loginService.memberLogin(memberVO.getUserID(), memberVO.getUserPWD());
+
+        if(memberData == null) {
+            msg.put("message", "아이디 또는 비밀번호가 맞지않습니다.");
+        } else {
+            //세션관리자를 통해 세션을 생성하고 웹브라우저에 응답, 회원 데이터 보관
+            sessionManager.createSession(memberData, response); // -> 세션 생성 : sessionStore<UUID, memberVO> , 쿠키 생성 : Cookie("세션 이름", UUID)
+
             msg.put("message", "로그인 성공");
         }
 

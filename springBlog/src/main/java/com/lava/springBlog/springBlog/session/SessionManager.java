@@ -31,6 +31,7 @@ public class SessionManager {
 
         //쿠키 생성 Cookie(세션이름, UUID)
         Cookie mySessionCookie = new Cookie(SESSION_COOKIE_NAME, sessionID);
+        mySessionCookie.setPath("/");
         //서버 입장에서 웹브라우저에 응답이 나간것
         response.addCookie(mySessionCookie);
     }
@@ -44,8 +45,9 @@ public class SessionManager {
      */
     public Object getSession(HttpServletRequest request) {
         Cookie sessionCookie = findCookie(request, SESSION_COOKIE_NAME);
-        System.out.println("sessionCookie = " + sessionCookie);
-        System.out.println("sessionStore.get(sessionCookie.getValue()) = " + sessionStore.get(sessionCookie.getValue()));
+        if(sessionCookie == null){
+            return null;
+        }
         //UUID(sessionCookie의 value)를 통해서 sessionStore에 저장된 MemberVO(value 값) 을 꺼내온다.
         return sessionStore.get(sessionCookie.getValue());
     }
