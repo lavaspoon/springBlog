@@ -59,7 +59,7 @@ public class LoginController {
         MemberVO memberData = loginService.memberLogin(memberVO.getUserID(), memberVO.getUserPWD());
 
         if(memberData == null) {
-            msg.put("message", "아이디 또는 비밀번호가 맞지않습니다.");
+            System.out.println("memberData = " + memberData);
         } else {
             //세션관리자를 통해 세션을 생성하고 웹브라우저에 응답, 회원 데이터 보관
             sessionManager.createSession(memberData, response); // -> 세션 생성 : sessionStore<UUID, memberVO> , 쿠키 생성 : Cookie("세션 이름", UUID)
@@ -73,21 +73,41 @@ public class LoginController {
     //로그인 - 서블릿 HTTP 세션
     @ResponseBody
     @RequestMapping(value = "/login", method = {RequestMethod.POST})
-    public HashMap<String, String> memberLoginV3(@ModelAttribute MemberVO memberVO, HttpServletRequest request){
-        HashMap<String, String> msg = new HashMap<>();
+    public HashMap<String, Boolean> memberLoginV3(@ModelAttribute MemberVO memberVO, HttpServletRequest request){
+        HashMap<String, Boolean> msg = new HashMap<>();
         //전송된 폼데이터로 유저의 전체 데이터를 가져옴
         MemberVO memberData = loginService.memberLogin(memberVO.getUserID(), memberVO.getUserPWD());
-
+        
         if(memberData == null) {
-            msg.put("message", "아이디 또는 비밀번호가 맞지않습니다.");
+            msg.put("message", false);
         } else {
+            msg.put("message", true);
             //세션이 있으면 재사용(true), 없으면 신규 생성(true | false)
             HttpSession session = request.getSession(true);
             //세션에 로그인 회원정보 보관
             session.setAttribute(SessionConst.LOGIN_MEMBER, memberData);
-            msg.put("message", "로그인 성공");
+        }
+        return msg;
+    }
+
+    //로그인 필터 - 리다이렉트 적용 - 실패
+    //@RequestMapping(value = "/login", method = {RequestMethod.POST})
+    public String memberLoginV4(@ModelAttribute MemberVO memberVO, HttpServletRequest request,
+                                @RequestParam(defaultValue = "/") String redirectURL
+                                )
+    {
+        //전송된 폼데이터로 유저의 전체 데이터를 가져옴
+        MemberVO memberData = loginService.memberLogin(memberVO.getUserID(), memberVO.getUserPWD());
+
+        if(memberData == null) {
+            return "/html/Login/login";
         }
 
-        return msg;
+        //세션이 있으면 재사용(true), 없으면 신규 생성(true | false)
+        HttpSession session = request.getSession(true);
+        //세션에 로그인 회원정보 보관
+        session.setAttribute(SessionConst.LOGIN_MEMBER, memberData);
+        System.out.println("redirectURL = " + redirectURL);
+        return "redirect:" + redirectURL;
     }
 }

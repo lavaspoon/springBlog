@@ -1,5 +1,6 @@
 package com.lava.springBlog.springBlog;
 
+import com.lava.springBlog.springBlog.filter.LoginCheckFilter;
 import com.lava.springBlog.springBlog.filter.LoginFiler;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -21,4 +22,15 @@ public class WebConfig {
 
         return filterFilterRegistrationBean;
     }
+
+    @Bean
+    public FilterRegistrationBean loginCheckFilter() {
+        FilterRegistrationBean<Filter> filterRegistrationBean = new
+                FilterRegistrationBean<>();
+        filterRegistrationBean.setFilter(new LoginCheckFilter());
+        filterRegistrationBean.setOrder(2);
+        filterRegistrationBean.addUrlPatterns("/*");
+        return filterRegistrationBean;
+    }
+
 }

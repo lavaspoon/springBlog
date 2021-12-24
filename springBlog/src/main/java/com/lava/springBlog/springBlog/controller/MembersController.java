@@ -29,7 +29,7 @@ public class MembersController {
     private static final Logger logger = LoggerFactory.getLogger(MembersController.class);
     //로그인 페이지
     @GetMapping("/addMember")
-    public String showPage(Model model){
+    public String addMemberPage(Model model){
         //타임리프로 값을 불러오기 때문에 빈값을 넘겨줘야함
         //model.addAttribute("member", new Member());
         return "html/Members/addMember";
@@ -79,5 +79,15 @@ public class MembersController {
         int count = memberService.checkID(userID);
         logger.info("실시간 중복검사 count = {}", count);
         return count;
+    }
+
+
+    //회원 관리
+    //로그인 페이지
+    @GetMapping("/manageMember")
+    public String manageMemberPage(Model model){
+        //타임리프로 값을 불러오기 때문에 빈값을 넘겨줘야함
+        //model.addAttribute("member", new Member());
+        return "html/Members/manageMember";
     }
 }

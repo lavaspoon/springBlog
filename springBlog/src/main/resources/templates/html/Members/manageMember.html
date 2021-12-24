@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <style>
+        .container {
+            max-width: 560px;
+        }
+        .field-error {
+            border-color: #dc3545;
+            color : #dc3545;
+        }
+        .field-ok {
+            border-color: #146c43;
+            color : #146c43;
+        }
+    </style>
+
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>회원 관리</h2>
+    </div>
+    <h4 class="mb-3">회원 정보 입력</h4>
+
+    <form id="Members-addMember">
+        <div>
+            <label for="userID">아이디</label>
+            <input type="text" id="userID" name="userID" class="form-control" placeholder="아이디를 입력하세요" oninput="checkID()">
+            <div class="field-error" id="ID_check"></div>
+            <div class="field-ok" id="ID_ava"></div>
+            <div class="field-error" id="ID_dis"></div>
+        </div>
+        <div>
+            <label for="userPWD">비밀번호</label>
+            <input type="password" id="userPWD" name="userPWD" class="form-control" placeholder="비밀번호를 입력하세요">
+            <div class="field-error" id="PWD_check"></div>
+        </div>
+        <div>
+            <label for="userPWD_Check">비밀번호 확인</label>
+            <input type="password" id="userPWD_Check" name="userPWD_Check" class="form-control" placeholder="비밀번호를 입력하세요">
+            <div class="field-error" id="PWD_Check_check"></div>
+        </div>
+        <div>
+            <label for="userName">이름</label>
+            <input type="text" id="userName" name="userName" class="form-control" placeholder="이름을 입력하세요">
+        </div>
+        <div>
+            <label for="userPhone">핸드폰 번호</label>
+            <input type="text" id="userPhone" name="userPhone" class="form-control" placeholder="핸드폰번호를 입력하세요">
+        </div>
+        <hr class="my-4">
+        <div class="row">
+            <div class="col">
+                <button th:id="Members-addMember-submit" class="w-100 btn btn-primary btn-lg" type="button">회원 등록</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        onclick="location.href='items.html'"
+                        th:onclick="|location.href='@{/}'|"
+                        type="button">취소</button>
+            </div>
+        </div>
+    </form>
+</div> <!-- /container -->
+
+<script type="text/javascript" th:src="@{/javascript/Members/addMember.js}"></script>
+</body>
+</html>

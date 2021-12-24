@@ -16,7 +16,11 @@ $('#Members-login-submit').on('click', function (){
                     userPWD : userPWD
                 },
             success: function (data){
-                alert(data.message);
+                if(data.message == true) {
+                    location.href = "/";
+                } else if(data.message == false) {
+                    alert("아이디와 비밀번호가 틀렸습니다.");
+                }
             },
             error: function (){
                 alert("server error");
