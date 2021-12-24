@@ -16,9 +16,9 @@ $('#Members-login-submit').on('click', function (){
                     userPWD : userPWD
                 },
             success: function (data){
-                if(data.message == true) {
+                if(data.message == "true") {
                     location.href = "/";
-                } else if(data.message == false) {
+                } else if(data.message == "false") {
                     alert("아이디와 비밀번호가 틀렸습니다.");
                 }
             },

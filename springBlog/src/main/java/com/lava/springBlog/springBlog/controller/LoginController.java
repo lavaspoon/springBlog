@@ -73,15 +73,21 @@ public class LoginController {
     //로그인 - 서블릿 HTTP 세션
     @ResponseBody
     @RequestMapping(value = "/login", method = {RequestMethod.POST})
-    public HashMap<String, Boolean> memberLoginV3(@ModelAttribute MemberVO memberVO, HttpServletRequest request){
-        HashMap<String, Boolean> msg = new HashMap<>();
+    public HashMap<String, String> memberLoginV3(@ModelAttribute MemberVO memberVO,
+                                                  HttpServletRequest request,
+                                                  @RequestParam(defaultValue = "/") String redirectURL
+    ){
+        HashMap<String, String> msg = new HashMap<>();
+        //리다이렉트 URL 담기
+        //String requestURI = request.getRequestURI();
+        //msg.put("redirectURL", redirectURL);
         //전송된 폼데이터로 유저의 전체 데이터를 가져옴
         MemberVO memberData = loginService.memberLogin(memberVO.getUserID(), memberVO.getUserPWD());
-        
+
         if(memberData == null) {
-            msg.put("message", false);
+            msg.put("message", "false");
         } else {
-            msg.put("message", true);
+            msg.put("message", "true");
             //세션이 있으면 재사용(true), 없으면 신규 생성(true | false)
             HttpSession session = request.getSession(true);
             //세션에 로그인 회원정보 보관
