@@ -1,5 +1,6 @@
 package com.lava.springBlog.springBlog;
 
+import com.lava.springBlog.springBlog.customAnno.argumentresolver.LoginMemberArgumentResolver;
 import com.lava.springBlog.springBlog.filter.LoginCheckFilter;
 import com.lava.springBlog.springBlog.filter.LoginFiler;
 import com.lava.springBlog.springBlog.interceptor.LogInterceptor;
@@ -7,16 +8,28 @@ import com.lava.springBlog.springBlog.interceptor.LoginCheckInterceptor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.Filter;
+import java.util.List;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
     //스프링부트는 WAS를 내장하기 때문에 서버실행때 아래 메서드를 실행함
 
-/**
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(new LoginMemberArgumentResolver());
+    }
+
+    /**
+ * ArgumentResolver
+ /**
+
+
+ /**
  * 인터셉터로 로그, 로그인 인증 체크
  */
     @Override

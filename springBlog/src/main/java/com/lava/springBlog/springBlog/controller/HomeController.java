@@ -1,10 +1,10 @@
 package com.lava.springBlog.springBlog.controller;
 
+import com.lava.springBlog.springBlog.customAnno.argumentresolver.Login;
 import com.lava.springBlog.springBlog.model.MemberVO;
 import com.lava.springBlog.springBlog.model.SessionConst;
 import com.lava.springBlog.springBlog.service.LoginService;
 import com.lava.springBlog.springBlog.session.SessionManager;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -60,7 +59,7 @@ public class HomeController {
     }
 
     // 로그인 화면 - 서블릿 HTTP 세션
-    @GetMapping("/")
+    //@GetMapping("/")
     public String homeLoginV3(HttpServletRequest request, Model model){
         //처음 들어온 사용자는 세션 생성 안되게함
         HttpSession session = request.getSession(false);
@@ -78,6 +77,17 @@ public class HomeController {
         return "/html/Home/loginHome";
     }
 
+    // 로그인 화면 - ArgumentResolver
+    @GetMapping("/")
+    public String homeLoginV4(@Login MemberVO memberVO, Model model){
+
+        if(memberVO == null) {
+            return "/html/Home/home";
+        }
+
+        model.addAttribute("member", memberVO);
+        return "/html/Home/loginHome";
+    }
     //로그아웃
     //@PostMapping("/logout")
     public String homeLogoutV1(HttpServletResponse response){
