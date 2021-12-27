@@ -79,7 +79,6 @@ public class LoginController {
     ){
         HashMap<String, String> msg = new HashMap<>();
         //리다이렉트 URL 담기
-        //String requestURI = request.getRequestURI();
         //msg.put("redirectURL", redirectURL);
         //전송된 폼데이터로 유저의 전체 데이터를 가져옴
         MemberVO memberData = loginService.memberLogin(memberVO.getUserID(), memberVO.getUserPWD());
