@@ -35,7 +35,7 @@ $('#Members-addMember-submit').on('click', function (){
     }
 });
 
-/*
+/* ll
 리다이렉트로 주소가 찍혀서 해당 컨트롤러 호출 못하는 버그 발생
 로그인된 상태에서는 해당 기능 정상작동 -> requsetURL 이 다름
 정상 : http://localhost:8081/html/Members/addMember
