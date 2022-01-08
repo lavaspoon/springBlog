@@ -11,7 +11,9 @@ import java.util.Optional;
 @Mapper
 public interface MemberMapper {
     //회원가입 Insert
-    @Insert("INSERT INTO MEMBERS VALUES(members_seq.nextval, #{memberVO.userID}, #{memberVO.userPWD}, #{memberVO.userName}, #{memberVO.userPhone})")
+    //oracle auto_increment - @Insert("INSERT INTO MEMBERS VALUES(members_seq.nextval, #{memberVO.userID}, #{memberVO.userPWD}, #{memberVO.userName}, #{memberVO.userPhone})")
+    //mysql - insert into members (userid, userpwd, username, userphone) values ('lavaspoon','1234','이은호','01012341234');
+    @Insert("INSERT INTO MEMBERS (userid, userpwd, username, userphone) VALUES(#{memberVO.userID}, #{memberVO.userPWD}, #{memberVO.userName}, #{memberVO.userPhone})")
     int insertMember(@Param("memberVO") MemberVO memberVO);
 
     //중복체크 select count(userid) from members where userid = 'lava';
